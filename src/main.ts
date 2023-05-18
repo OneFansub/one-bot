@@ -3,6 +3,7 @@ import { Koa } from "@discordx/koa";
 import type { Interaction, Message } from "discord.js";
 import { IntentsBitField } from "discord.js";
 import { Client } from "discordx";
+import views from 'koa-views';
 
 export const bot = new Client({
   // To use only guild command
@@ -57,7 +58,6 @@ async function run() {
   // The following syntax should be used in the commonjs environment
   //
   // await importx(__dirname + "/{events,commands,api}/**/*.{ts,js}");
-console.log(dirname(import.meta.url));
 
   // The following syntax should be used in the ECMAScript environment
   await importx(
@@ -76,6 +76,8 @@ console.log(dirname(import.meta.url));
 
   // api: prepare server
   const server = new Koa();
+  const render = views(dirname(import.meta.url) + '/views');
+  server.use(render);
 
   // api: need to build the api server first
   await server.build();
