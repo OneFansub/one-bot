@@ -5,7 +5,8 @@ import type { Interaction, Message } from "discord.js";
 import { IntentsBitField } from "discord.js";
 import { Client } from "discordx";
 import views from 'koa-views';
-
+import serve from 'koa-static';
+import bodyParser from "koa-bodyparser";
 export const bot = new Client({
   // To use only guild command
   // botGuilds: [(client) => client.guilds.cache.map((guild) => guild.id)],
@@ -77,8 +78,11 @@ async function run() {
 
   // api: prepare server
   const server = new Koa();
+  // api: setup middlewares
   const render = views(dirname(import.meta.url) + '/views');
   server.use(render);
+  server.use(serve(dirname(import.meta.url) + '/public'))
+  server.use(bodyParser());
 
   // api: need to build the api server first
   await server.build();

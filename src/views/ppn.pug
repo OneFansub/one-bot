@@ -1,3 +1,15 @@
 extends layout
 block content
-    h1= title
+    section 
+        h2(style="text-align: center;")= title
+        button(onclick='ppn()') Enviar #{title}dd
+
+    form(action="/sendMessage", method="post")
+        h4 Enviar mensaje:
+        label(for="channel") Id del canal:
+        input(type="number" id="channel" name="channel" placeholder="ej: 998707695332884481" required)
+        label(for="message") Mensaje:
+        textarea(id="message" name="message" placeholder="Mensaje" maxlength="4000" required) 
+        button(type="submit") Enviar mensaje
+
+    script(src="/scripts/bot-api.js")
