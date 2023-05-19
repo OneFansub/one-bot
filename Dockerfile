@@ -32,5 +32,9 @@ RUN npm install --omit=dev
 # Move build files
 COPY --from=build-runner /tmp/app/build /app/build
 
+# Move source files
+COPY .env /app
+COPY src/views /app/build/views
+
 # Start bot
 CMD [ "npm", "run", "start" ]
