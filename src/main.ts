@@ -1,11 +1,11 @@
-import 'dotenv/config'
+import "dotenv/config";
 import { dirname, importx } from "@discordx/importer";
 import { Koa } from "@discordx/koa";
 import type { Interaction, Message } from "discord.js";
 import { IntentsBitField } from "discord.js";
 import { Client } from "discordx";
-import views from 'koa-views';
-import serve from 'koa-static';
+import views from "koa-views";
+import serve from "koa-static";
 import bodyParser from "koa-bodyparser";
 export const bot = new Client({
   // To use only guild command
@@ -70,6 +70,9 @@ async function run() {
   if (!process.env.BOT_TOKEN) {
     throw Error("Could not find BOT_TOKEN in your environment");
   }
+  if (!process.env.FIREBASE_TOKEN) {
+    throw Error("Could not find FIREBASE_TOKEN in your environment");
+  }
 
   // Log in with your bot token
   await bot.login(process.env.BOT_TOKEN);
@@ -79,9 +82,9 @@ async function run() {
   // api: prepare server
   const server = new Koa();
   // api: setup middlewares
-  const render = views(dirname(import.meta.url) + '/views');
+  const render = views(dirname(import.meta.url) + "/views");
   server.use(render);
-  server.use(serve(dirname(import.meta.url) + '/public'))
+  server.use(serve(dirname(import.meta.url) + "/public"));
   server.use(bodyParser());
 
   // api: need to build the api server first

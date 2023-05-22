@@ -20,6 +20,7 @@
     "discord.js": "^14.7.1",
     "discordx": "^11.7.0",
     "dotenv": "^16.0.3",
+    "firebase": "^9.22.0",
     "koa": "^2.14.1",
     "koa-bodyparser": "^4.4.0",
     "koa-static": "^5.0.0",
