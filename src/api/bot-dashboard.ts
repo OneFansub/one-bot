@@ -6,9 +6,8 @@ import { TextChannel } from "discord.js";
 @Router()
 export class API {
   @Get("/ppn")
-  async xd(context: Context): Promise<void> {
-    context.state.info = { title: "pene pal nalu xd" };
-    await context.render("ppn.pug", context.state.info);
+  async ppnGet(context: Context): Promise<void> {
+    await context.render("ppn.pug", { title: "pene pal nalu xd" });
   }
 
   @Post("/ppn")
@@ -19,7 +18,12 @@ export class API {
     context.body = "error";
     if (channel == null) return;
     channel.send({
-      embeds: [{ description: "Pene pal <@513119118082179074> <:KEKW:849479430644826122>" }],
+      embeds: [
+        {
+          description:
+            "Pene pal <@513119118082179074> <:KEKW:849479430644826122>",
+        },
+      ],
     });
 
     context.body = "ok";
