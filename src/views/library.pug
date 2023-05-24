@@ -1,0 +1,12 @@
+extends layout
+block content
+    h2=title
+    a(href="./anime/new" role="button") New Anime
+    br
+    br
+    if animes
+        each anime in animes
+            br
+            a(href="/anime?id=" + anime.id) 
+                h4=anime.data().title
+            hr
