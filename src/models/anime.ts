@@ -1,14 +1,17 @@
 export interface Anime {
+  title: string;
+  sumary?: string;
+  credits?: [{ name: any; value: string }];
+  episodes?: string;
+  primaryColor: `#${string}`;
+  tags?: AnimeTag[];
+  imageLink?: string;
+  downloadLink?: string;
+  discordMessageLink?: string;
+  malLink?: string;
+  anilistLink?: string;
   createdAt?: string;
   updatedAt?: string;
-  primaryColor?: number;
-  downloadLink?: string;
-  title?: string;
-  tags?: AnimeTag[];
-  episodes?: string;
-  sumary?: string;
-  imageLink?: string;
-  discordMessageLink?: string;
 }
 
 export enum AnimeTag {
