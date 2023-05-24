@@ -6,8 +6,11 @@ import * as db from "./db.js";
 @Router()
 export class API {
   @Get("/")
-  lobby(context: Context) {
-    context.redirect("/library");
+  async lobby(context: Context) {
+    await context.render("library.pug", {
+      title: "Biblioteca Anime",
+      animes: await db.getAnimes(),
+    });
   }
 
   @Get("/library")
