@@ -27,5 +27,9 @@ block content
                     if animeData.updatedAt
                         span Actualizado: #{animeData.updatedAt}
 
+        footer
+            div.grid
+                a(href="/anime/edit?id=" + anime.id)
+                    button.contrast Editar
                 button.outline.contrast(onclick=`deleteAnime("${anime.id}")`) Eliminar
     script(src="/scripts/bot-api.js")

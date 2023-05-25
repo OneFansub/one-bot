@@ -2,6 +2,8 @@ import {
   getFirestore,
   collection,
   getDocs,
+  addDoc,
+  setDoc,
   getDoc,
   doc,
   deleteDoc,
@@ -21,6 +23,19 @@ export async function getAnimes() {
 export function getAnime(animeId: string) {
   const docRef = doc(db, "anidb", animeId);
   return getDoc(docRef);
+}
+
+export async function saveAnime(anime: Anime) {
+  const animesCol = collection(db, "anidb");
+  return addDoc(animesCol, anime);
+}
+
+export async function updateAnime(animeId: string, anime: Anime) {
+  const docRef = doc(db, "anidb", animeId);
+  const docSnap = await getDoc(docRef);
+
+  if (docSnap.exists()) setDoc(docRef, anime);
+  else console.log(`Culdn't update, the anime id: ${animeId} was not found!`);
 }
 
 export async function deleteAnime(animeId: string) {
