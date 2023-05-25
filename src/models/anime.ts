@@ -15,15 +15,16 @@ export interface Anime {
 }
 
 export enum AnimeTag {
-  Anime,
-  Movie,
-  OVA,
-  ONA,
-  Airing,
-  Finished,
-  Web_dl,
-  Web_rip,
-  BD,
-  JAV,
-  Dub,
+  Anime = "Anime",
+  Movie = "Movie",
+  OVA = "OVA",
+  ONA = "ONA",
+  Airing = "Airing",
+  Finished = "Finished",
+  Web_dl = "Web_dl",
+  Web_rip = "Web_rip",
+  BD = "BD",
+  JAV = "JAV",
+  Dub = "Dub",
+}
 }

@@ -1,4 +1,4 @@
-import { Router, Get, Post } from "@discordx/koa";
+import { Router, Get, Post, Delete } from "@discordx/koa";
 import { Context } from "koa";
 import * as bot from "./bot.js";
 import * as db from "./db.js";
@@ -21,6 +21,29 @@ export class API {
       title: "Biblioteca Anime",
       animes: await db.getAnimes(),
     });
+  }
+
+  @Get("/anime")
+  async animeDetail(context: Context) {
+    context.body = "error";
+    const animeId = context.request.query.id as string;
+    // console.log(animeId);
+
+    const anime = await db.getAnime(animeId);
+    await context.render("anime_detail.pug", {
+      anime: anime,
+      title: anime.data()!.title,
+    });
+  }
+  @Delete("/anime/delete")
+  async deleteAnime(context: Context) {
+    context.body = "error";
+    const reqBody: any = context.request.body;
+    // console.log("id to delete: " + reqBody.animeId);
+
+    await db.deleteAnime(reqBody.animeId);
+    context.body = "ok";
+    context.redirect("/");
   }
 
   @Post("/sendMessage")
