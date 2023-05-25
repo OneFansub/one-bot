@@ -27,4 +27,3 @@ export enum AnimeTag {
   JAV = "JAV",
   Dub = "Dub",
 }
-}

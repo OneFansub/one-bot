@@ -1,6 +1,6 @@
 import { APIEmbed, TextChannel } from "discord.js";
-import { bot } from "../main";
-import { Anime, animeToEmbed } from "../models/anime";
+import { bot } from "../main.js";
+import { Anime } from "../models/anime.js";
 
 export async function sendMessage(
   channelId: string,

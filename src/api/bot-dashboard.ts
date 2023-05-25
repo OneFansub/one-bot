@@ -7,9 +7,8 @@ import * as db from "./db.js";
 export class API {
   @Get("/")
   async lobby(context: Context) {
-    await context.render("library.pug", {
-      title: "Biblioteca Anime",
-      animes: await db.getAnimes(),
+    await context.render("lobby.pug", {
+      title: "OneFansub Bot",
     });
   }
 

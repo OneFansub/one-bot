@@ -12,7 +12,7 @@ block content
                 div.grid
                     p Episodios: #{animeData.episodes}
                     p Color: 
-                        span(style=`color: ${animeData.primaryColor};`) #{animeData.primaryColor.toUpperCase()}
+                        span(style=`color: ${animeData.primaryColor};`) #{animeData.primaryColor}
                 p= animeData.tags
                 div.grid.center
                     a(href=animeData.downloadLink role="button") Descargar
