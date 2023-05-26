@@ -86,7 +86,8 @@ export class API {
     const body: any = context.request.body;
 
     context.body = "error";
-    bot.sendMessage(body.channel, body.message);
+    const embed = body.embed ? JSON.parse(body.embed) : undefined;
+    await bot.sendMessage(body.channel, body.message, embed);
     context.body = "ok";
   }
 
