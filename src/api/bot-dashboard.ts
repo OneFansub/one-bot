@@ -63,7 +63,7 @@ export class API {
     if (!anime.createdAt)
       anime.createdAt = new Date().toISOString().slice(0, -5);
     anime.primaryColor = anime.primaryColor?.toUpperCase() as any;
-    
+
     if (animeId) await db.updateAnime(animeId, anime);
     else animeId = (await db.saveAnime(reqBody)).id;
 
@@ -87,6 +87,25 @@ export class API {
 
     context.body = "error";
     bot.sendMessage(body.channel, body.message);
+    context.body = "ok";
+  }
+
+  @Post("/sendDiscordEmbed")
+  async sendDiscordEmbed(context: Context): Promise<void> {
+    const body: any = context.request.body;
+    context.body = "error";
+
+    const animeSnap = await db.getAnime(body.animeId);
+    if (!animeSnap.exists()) return;
+    const animeId = animeSnap.id;
+    const anime = animeSnap.data() as Anime;
+
+    const msgUrl = await bot.sendAnimeEmbed(body.channel, body.message, anime);
+    if (!msgUrl) return;
+    anime.discordMessageLink = msgUrl.url;
+
+    db.updateAnime(animeId, anime);
+
     context.body = "ok";
   }
 
