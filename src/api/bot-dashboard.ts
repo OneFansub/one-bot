@@ -30,10 +30,14 @@ export class API {
     // console.log(animeId);
 
     const anime = await db.getAnime(animeId);
-    await context.render("anime_detail.pug", {
-      anime: anime,
-      title: anime.data()!.title,
-    });
+    if (anime.exists()) {
+      await context.render("anime_detail.pug", {
+        anime: anime,
+        title: anime.get("title"),
+      });
+    } else {
+      context.body = `Error: Anime id: ${animeId} no enocntrado`;
+    }
   }
 
   @Get("/anime/edit")

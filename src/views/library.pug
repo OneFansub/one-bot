@@ -8,5 +8,5 @@ block content
         each anime in animes
             br
             a(href="/anime?id=" + anime.id) 
-                h4=anime.data().title
+                h4=anime.get('title')
             hr
