@@ -2,22 +2,28 @@ extends layout
 block content
     - if (anime){var animeData = anime.data();}
     h2(style="text-align:center;")=title
-    form(action="" method="post")
+    form#anime-form(action="" method="post")
         input(type="hidden" name="id" value=(anime ? anime.id : ""))
         label(for="title") Título:
-        input(id="title" name="title" type='text' placeholder="anime title" value=(animeData ? animeData.title : ""))
+        input(id="title" name="title" type='text' placeholder="anime title" value=(animeData ? animeData.title : "") required)
         label(for="sumary") Sinopsis:
         input(id="sumary" name="sumary" type='text' placeholder="sinopsis como las de hentaila XD" value=(animeData ? animeData.sumary : ""))
         label(for="credits") Creditos:
-        input(id="credits" name="credits" type='text' placeholder="encode: bits, subs: robados del emzy sin permiso xdd" value=(animeData ? animeData.credits : "") disabled)
+        div#credits.grid.columns-4-auto
+            if anime && animeData.credits
+                for credit, i in animeData.credits
+                    div.grid
+                        input(name="name" value=credit.name)
+                        input(name="value" value=credit.value)
+        button(type="button" onclick="addCredit()") Agregar credito
         div.grid
             label(for="episodes") Episodios:
             label(for="primaryColor") Color:
-            label(for="tags") Tags:
+            label(for="tags") Tags: (separadas por comas)
         div.grid
             input(id="episodes" name="episodes" type='text' placeholder="ej: 12 + 1 OVA" value=(animeData ? animeData.episodes : ""))
             input(id="primaryColor" name="primaryColor" type='color' value=(animeData ? animeData.primaryColor : ""))
-            input(id="tags" name="tags" type='text' placeholder="Anime, Finished ,BD ,JAV" value=(animeData ? animeData.tags : "") disabled)
+            input(id="tags" name="tags" type='text' placeholder="Anime, Finished ,BD ,JAV" value=(animeData && animeData.tags ? animeData.tags.join(", ") : ""))
         div.grid
             label(for="imageLink")= `Imagen (link):`
             label(for="downloadLink") Link de descarga:
@@ -38,12 +44,8 @@ block content
             label(for="createdAt") Fecha Creado:
             label(for="updatedAt") Fecha Actualizado:
         div.grid
-            div.grid.columns-2-auto
-                input(id="createdAt" name="createdAt" type='datetime-local' value=(animeData ? animeData.createdAt : ""))
-                button.secondary(type="button" onclick='fillDate("createdAt")') Hoy
-            div.grid.columns-2-auto
-                input(id="updatedAt" name="updatedAt" type='datetime-local' value=(animeData ? animeData.updatedAt : ""))
-                button.secondary(type="button" onclick='fillDate("updatedAt")') Hoy
+            input(id="createdAt" name="createdAt" type='datetime-local' value=(animeData ? animeData.createdAt : ""))
+            input(id="updatedAt" name="updatedAt" type='datetime-local' value=(animeData ? animeData.updatedAt : ""))
 
         button(type="submit") Enviar
-    script(src="/scripts/anime_form.js")
+    script(src="/scripts/anime-form.js")

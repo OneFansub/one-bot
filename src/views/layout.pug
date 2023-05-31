@@ -7,25 +7,28 @@ html(lang='en')
     link(rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css")
     link(rel="icon" type="image/x-icon" href="/favicon.ico")
     style(type='text/css').
-        .grid, .center {
-            align-items: center;
-            text-align: center;
-        }
-        .columns-2-auto {
-          grid-template-columns: auto auto;
-        }
+      .grid, .center {
+        align-items: center;
+        text-align: center;
+      }
+      .columns-2-auto {
+        grid-template-columns: auto auto;
+      }
+      .columns-4-auto {
+        grid-template-columns: auto auto auto auto;
+      }
   body(class='container')
     nav
-      
-        ul
-          li 
-            a(href="/") #[strong OneFansub]
-        ul 
-          li Discord Bot - Admin Dashboard
-        ul
-          li
-            a(href="/") Inicio
-          li
-            a(href="/library") Biblioteca
+
+      ul
+        li 
+          a(href="/") #[strong OneFansub]
+      ul 
+        li Discord Bot - Admin Dashboard
+      ul
+        li
+          a(href="/") Inicio
+        li
+          a(href="/library") Biblioteca
     br
     block content

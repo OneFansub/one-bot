@@ -52,13 +52,16 @@ export class API {
     });
   }
 
-  @Post("/anime/edit")
-  @Post("/anime/new")
+  @Post("/anime/save")
   async createAnimePost(context: Context): Promise<void> {
     const reqBody: any = context.request.body;
     let animeId = reqBody.id;
     delete reqBody.id;
-    const anime: Anime = reqBody;
+
+    // remove properties with empty string value
+    const anime: Anime = Object.fromEntries(
+      Object.entries(reqBody).filter(([_, v]) => v != "")
+    ) as any;
 
     if (!anime.createdAt)
       anime.createdAt = new Date().toISOString().slice(0, -5);

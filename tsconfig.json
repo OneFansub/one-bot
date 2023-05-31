@@ -13,7 +13,7 @@
 
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "allowJs": true
+    // "allowJs": true
   },
   "exclude": ["build", "node_modules"]
 }
