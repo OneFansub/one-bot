@@ -1,15 +1,31 @@
 extends layout
 block content
+    -
+     var channels = [
+            { name: "#comandos-spam", id: "849694911246630932" },
+            { name: "#pros ", id: "998707695332884481" },
+            { name: "#📢-anuncios ", id: "849489300721631262" },
+            { name: "#🆕-nuevas-publicaciones ", id: "849489067213455390" },
+            { name: "#🎥-anime-en-emision ", id: "864988433709531136" },
+            { name: "#🌌-general ", id: "849473589715664909" },
+        ];
     h2(style="text-align: center;")= title
 
     form(action="/sendMessage" method="post")
         h4 Enviar mensaje:
         label(for="channel") Id del canal:
-        input(type="number" id="channel" name="channel" placeholder="ej: 998707695332884481" required)
+        div.grid
+            input(type="number" id="channel" name="channel" placeholder="ej: 998707695332884481" required)
+            details(role="list")
+                summary(aria-haspopup="listbox") Seleccionar canal
+                ul(role="listbox")
+                    for channel, i in channels 
+                        li
+                            a(onclick=`fillChannel("${channel.id}")`)=channel.name
         label(for="message") Mensaje:
         textarea(id="message" name="message" placeholder="Mensaje" maxlength="4000" required)
         label(for="message") Embed(json):
-        textarea(id="message" name="embed" placeholder="Embed en raw json" maxlength="4000") 
+        textarea(id="message" name="embed" placeholder="Embed en raw json" maxlength="4000")
         button(type="submit") Enviar mensaje
 
-    script(src="/scripts/bot-api.js")
+    script(src="/scripts/lobby.js")
