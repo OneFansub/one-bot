@@ -37,26 +37,27 @@ export enum AnimeTag {
 }
 
 export function animeToEmbed(anime: Anime): APIEmbed {
-  const embedData: APIEmbed = {
-    title: anime.title,
-    description: "**Sinopsis: **" + anime.sumary,
-    url: anime.downloadLink,
-    image: { url: anime.imageLink ?? "" },
-    author: { name: "BeatZ-Anime" },
-  };
+  const embed = new EmbedBuilder();
 
   const embedFields = buildEmbedFields(anime);
+  console.log(embedFields);
 
-  const a = EmbedBuilder.from(embedData)
-    .setColor(anime.primaryColor)
-    .setFields(embedFields)
+  // embed.setFields(embedFields);
+  if (embedFields.length != 0) embed.setFields(embedFields);
+
+  embed
+    .setColor(anime.primaryColor ?? null)
+    .setAuthor({ name: "BeatZ-Anime" })
+    .setTitle(anime.title)
+    .setURL(anime.downloadLink ?? null)
+    .setDescription("**Sinopsis: **" + (anime.sumary ?? ""))
+    .setImage(anime.imageLink ?? null)
     .setFooter({ text: tagsToString(anime.tags) })
-    .setTimestamp(anime.createdAt ? Date.parse(anime.createdAt) : null)
-    .toJSON();
-  // ^ runs validators
-  console.log(a);
+    .setTimestamp(anime.createdAt ? Date.parse(anime.createdAt) : null);
 
-  return a;
+  console.log(embed);
+  // runs validators ↓
+  return embed.toJSON();
 }
 
 function buildEmbedFields(anime: Anime) {
@@ -64,29 +65,29 @@ function buildEmbedFields(anime: Anime) {
 
   if (anime.updatedAt)
     embedFields.push({
-      name: "**Actualizado:**",
-      value: time(new Date(anime.updatedAt), TimestampStyles.LongDate),
+      name: "Actualizado:",
+      value: time(new Date(anime.updatedAt), TimestampStyles.ShortDate),
       inline: true,
     });
 
   embedFields.push({
-    name: "<:channel:1111421070038278226> **Episodios:**",
-    value: anime.episodes ?? "",
+    name: "<:channel:1111421070038278226> Episodios:",
+    value: anime.episodes ?? "#",
     inline: true,
   });
 
   if (anime.credits) embedFields.push(...creditsToEmbedFields(anime.credits));
 
   let anilists = "";
-  if (anime.anilistLink) anilists += `• **[AniList](${anime.anilistLink})**`;
-  if (anime.malLink) anilists += `\n• **[MyAnimeList](${anime.malLink})**`;
+  if (anime.anilistLink) anilists += `• [AniList](${anime.anilistLink})`;
+  if (anime.malLink) anilists += `\n• [MyAnimeList](${anime.malLink})`;
 
   if (anilists != "")
     embedFields.push({ name: "Info:", value: anilists, inline: true });
 
   if (anime.downloadLink)
     embedFields.push({
-      name: "Descarga:",
+      name: "**Descarga:**",
       value: `• **[Link carpeta](${anime.downloadLink})**`,
     });
 
@@ -95,7 +96,7 @@ function buildEmbedFields(anime: Anime) {
 
 function creditsToEmbedFields(credits: [{ name: any; value: string }]) {
   return credits.map((field) => {
-    return { name: field.name, value: field.value, inline: true };
+    return { name: field.name ?? ".", value: field.value ?? ".", inline: true };
   });
 }
 
