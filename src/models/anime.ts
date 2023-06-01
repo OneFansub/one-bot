@@ -96,7 +96,11 @@ function buildEmbedFields(anime: Anime) {
 
 function creditsToEmbedFields(credits: [{ name: any; value: string }]) {
   return credits.map((field) => {
-    return { name: field.name ?? ".", value: field.value ?? ".", inline: true };
+    return {
+      name: field.name ? field.name : ".",
+      value: field.value ? field.value : ".",
+      inline: true,
+    };
   });
 }
 

@@ -28,10 +28,13 @@ function formDataToAnime(animeForm: HTMLFormElement) {
   delete formDataObject.value;
 
   // build the credits property object
-  if (creditNames.length != 0) {
-    formDataObject.credits = creditNames.map((name, i) => {
-      return { name, value: creditValues[i] };
+  if (creditNames.length != 0 || creditValues.length != 0) {
+    const credits = creditNames.map((name, i) => {
+      const value = creditValues[i];
+      if (name || value) return { name, value };
     });
+    // removes undefined credits
+    formDataObject.credits = credits.filter((credit) => credit);
   }
   if (tags) {
     formDataObject.tags = tags
