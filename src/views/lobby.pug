@@ -1,7 +1,7 @@
 extends layout
 block content
     -
-     var channels = [
+        var channels = [
             { name: "#comandos-spam", id: "849694911246630932" },
             { name: "#pros ", id: "998707695332884481" },
             { name: "#📢-anuncios ", id: "849489300721631262" },
@@ -9,6 +9,12 @@ block content
             { name: "#🎥-anime-en-emision ", id: "864988433709531136" },
             { name: "#🌌-general ", id: "849473589715664909" },
         ];
+    -
+        function findChannelName(channelId){
+            for (const channel of channels){
+                return channel.id == channelId ? channel.name : channelId;
+            }
+        }
     h2(style="text-align: center;")= title
 
     form(action="/sendMessage" method="post")
@@ -25,7 +31,29 @@ block content
         label(for="message") Mensaje:
         textarea(id="message" name="message" placeholder="Mensaje" maxlength="4000" required)
         label(for="message") Embed(json):
-        textarea(id="message" name="embed" placeholder="Embed en raw json" maxlength="4000")
+        textarea(id="embed" name="embed" placeholder="Embed en raw json" maxlength="4000")
         button(type="submit") Enviar mensaje
+        br
+        if templates
+            h4 Plantillas
+            for template, i in templates
+                - var templateData = template.data();
+                details(open)
+                    summary(role="button" class="secondary")=templateData.name
+                    article(style="margin:0")
+                        header
+                            div.grid
+                                span(style='text-align:left')=findChannelName(templateData.channel)
+                                span(role="button" onclick=`useTemplate(${i})` class="contrast") Usar plantilla
+                                //- span(role="button" onclick=`deleteTemplate("${template.id}")` class="contrast outline") Borrar plantilla
+                        span=templateData.message
+                        if templateData.embed
+                            footer
+                                pre=templateData.embed
+                            input(type="hidden" id=`template-${i}-embed` value=`${templateData.embed}`)
+                        input(type="hidden" id=`template-${i}-message` value=`${templateData.message}`)
+                        input(type="hidden" id=`template-${i}-channel` value=`${templateData.channel}`)
+        br
+        br
 
     script(src="/scripts/lobby.js")

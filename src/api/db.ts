@@ -42,3 +42,11 @@ export async function deleteAnime(animeId: string) {
   const docRef = doc(db, "anidb", animeId);
   deleteDoc(docRef);
 }
+
+export async function getMsgTemplates() {
+  const msgTemplatesCol = collection(db, "msgtemplatedb");
+  const msgTemplatesSnapshot = await getDocs(msgTemplatesCol);
+  // const msgTemplateList = msgTemplatesSnapshot.docs.map((doc) => doc.data());
+  // return msgTemplateList;
+  return msgTemplatesSnapshot.docs;
+}

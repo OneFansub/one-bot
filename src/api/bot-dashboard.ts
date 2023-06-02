@@ -8,8 +8,10 @@ import { Anime } from "../models/anime.js";
 export class API {
   @Get("/")
   async lobby(context: Context) {
+    const templates = await db.getMsgTemplates();
     await context.render("lobby.pug", {
       title: "OneFansub Bot",
+      templates: templates,
     });
   }
 
