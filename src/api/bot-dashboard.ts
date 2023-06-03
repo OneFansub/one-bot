@@ -119,6 +119,22 @@ export class API {
     context.body = "ok";
   }
 
+  @Post("/msgTemplates")
+  async saveMsgTemplate(context: Context) {
+    context.body = "error";
+    const body = context.request.body as any;
+    db.saveMsgTemplate(body);
+    context.body = "ok";
+  }
+
+  @Delete("/msgTemplates")
+  async deleteMsgTemplate(context: Context) {
+    context.body = "error";
+    const body = context.request.body as any;
+    db.deleteMsgTemplate(body.templateId);
+    context.body = "ok";
+  }
+
   @Get("/ppn")
   async ppnGet(context: Context): Promise<void> {
     await context.render("ppn.pug", { title: "pene pal nalu xd" });

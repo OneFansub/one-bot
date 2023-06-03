@@ -17,7 +17,7 @@ block content
         }
     h2(style="text-align: center;")= title
 
-    form(action="/sendMessage" method="post")
+    form#message-form(action="" method="post")
         h4 Enviar mensaje:
         label(for="channel") Id del canal:
         div.grid
@@ -31,21 +31,30 @@ block content
         label(for="message") Mensaje:
         textarea(id="message" name="message" placeholder="Mensaje" maxlength="4000" required)
         label(for="message") Embed(json):
-        textarea(id="embed" name="embed" placeholder="Embed en raw json" maxlength="4000")
-        button(type="submit") Enviar mensaje
+        textarea(id="embed" name="embed" placeholder="Embed en raw json" rows="10" maxlength="4000")
+        div.grid
+            button(type="submit") Enviar mensaje
+            button.contrast(type="button" onclick="openModal()") Guardar plantilla
+        dialog#dialog
+            article               
+                label(for="template-name") Nombre de la plantilla:
+                input#template-name
+                div.grid
+                    span(role="button" onclick="saveTemplate()") Guardar
+                    span(role="button" onclick="closeModal()") Cancelar
         br
         if templates
             h4 Plantillas
             for template, i in templates
                 - var templateData = template.data();
-                details(open)
+                details
                     summary(role="button" class="secondary")=templateData.name
                     article(style="margin:0")
                         header
                             div.grid
                                 span(style='text-align:left')=findChannelName(templateData.channel)
                                 span(role="button" onclick=`useTemplate(${i})` class="contrast") Usar plantilla
-                                //- span(role="button" onclick=`deleteTemplate("${template.id}")` class="contrast outline") Borrar plantilla
+                                span(role="button" onclick=`deleteTemplate("${template.id}")` class="contrast outline") Borrar plantilla
                         span=templateData.message
                         if templateData.embed
                             footer

@@ -50,3 +50,13 @@ export async function getMsgTemplates() {
   // return msgTemplateList;
   return msgTemplatesSnapshot.docs;
 }
+
+export async function saveMsgTemplate(msgTemplate: Object) {
+  const msgTemplatesCol = collection(db, "msgtemplatedb");
+  return addDoc(msgTemplatesCol, msgTemplate);
+}
+
+export async function deleteMsgTemplate(msgTemplateId: string) {
+  const docRef = doc(db, "msgtemplatedb", msgTemplateId);
+  deleteDoc(docRef);
+}
