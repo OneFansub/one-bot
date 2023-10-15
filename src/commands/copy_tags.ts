@@ -3,6 +3,7 @@ import {
   ChannelType,
   CommandInteraction,
   ForumChannel,
+  channelMention,
   formatEmoji,
 } from "discord.js";
 import { Discord, Slash, SlashOption } from "discordx";
@@ -32,18 +33,36 @@ export class CopyForumTags {
     interaction: CommandInteraction
   ): Promise<void> {
     if (
-      originForum.type === ChannelType.GuildForum &&
-      targetForum.type === ChannelType.GuildForum
+      originForum.type != ChannelType.GuildForum &&
+      targetForum.type != ChannelType.GuildForum
     ) {
-      const tags = originForum.availableTags;
-      targetForum.setAvailableTags(tags);
-
-      const tagsString = tags.map(
-        (tag) => tag.name + " " + formatEmoji(tag.emoji!.id!)
-      );
-      interaction.reply("tags copied: " + tagsString);
-    } else {
       interaction.reply("channels must be of type Forum");
+      return;
     }
+    const tags = originForum.availableTags;
+    targetForum.setAvailableTags(tags);
+
+    const tagsString = await Promise.all(
+      tags.map(async (tag) => {
+        let tagString = "";
+        if (tag.emoji) {
+          const emoji = await interaction.guild?.emojis.fetch(tag.emoji.id!);
+          const animated: boolean = emoji?.animated ? true : false;
+          tagString += formatEmoji(tag.emoji.id!, animated) + " ";
+        }
+        tagString += tag.name;
+        return tagString;
+      })
+    );
+
+    interaction.reply(
+      "### Copying tags from " +
+        channelMention(originForum.id) +
+        " to " +
+        channelMention(targetForum.id) +
+        "\n" +
+        tagsString.join(", ")
+    );
   }
 }
+
